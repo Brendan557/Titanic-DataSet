@@ -44,7 +44,7 @@ train_df.isnull().sum()
 # Next is the percent of missing "Age" value
 print('Percent of missing "Age" records is %.2f%%' %((train_df['Age'].isnull().sum()/train_df.shape[0])*100))
 
-# 19.87% of the passengers are missin the "Age" value.
+# 19.87% of the passengers are missing the "Age" value.
 # Next we will take a look at the mean and median as well as a histogram of the "Age" variable. 
 """Histogram"""
 ax = train_df["Age"].hist(bins=15, density=True, stacked=True, color='teal', alpha=0.6)
@@ -58,33 +58,31 @@ print('The mean of "Age" is %.2f' %(train_df["Age"].mean(skipna=True)))
 
 # We can see here that "Age" is right skewed. Filling in the missing values using the mean might give us biased results that are older than desired. 
 # The mean of "Age" is 29.70 years old
-# To deal with this, we'll consider using the median to inpute the missing values.
+# To deal with this, we'll consider using the median to input the missing values.
 # Median age
 print('The median of "Age" is %.2f' %(train_df["Age"].median(skipna=True)))
 
 # The median of "Age" is 28.00 years old
 # The median is lower than the mean and "Age" is right skewed, we will be using the median when filling in the missing "Age" values.  
 
-"""
-Missing Cabin Values
-"""
-# Next we will inverstigate the percent of missing "Cabin" values
+"""Missing Cabin Values"""
+
+# Next we will investigate the percent of missing "Cabin" values
 print('Percent of missing "Cabin" records is %.2f%%' %((train_df['Cabin'].isnull().sum()/train_df.shape[0])*100))
 
 # The Percent of missing cabin records is 77.10%
-#Since we are missing 77% of these values inputing a value for prediction is a bad idea, so will ignore this variable in our model.
+# Since we are missing 77% of these values inputting a value for prediction is a bad idea, so will ignore this variable in our model.
 
-"""
-EMBARKED MISSING VALUES
-"""
+"""EMBARKED MISSING VALUES"""
+
 # Lets consider the percent of missing "Embarked" values
 print('Percent of missing "Embarked" records is %.2f%%' %((train_df['Embarked'].isnull().sum()/train_df.shape[0])*100))
 
 # The percent missing "Embarked" records is 0.22%
 
 # There are only 2 port missing values.  In this case I would suggest using the port from which most passengers embarked from to fill in the missing values.
-# Now lets find out how many passengers embarked from each of the three ports. C = Cherbourg, Q = Queenstown, S = SouthHampton.
-print('Passengers grouped by port of embarkment (C = Cherbourg, Q = Queenstown, S = SouthHampton):')
+# Now lets find out how many passengers embarked from each of the three ports. C = Cherbourg, Q = Queenstown, S = Southampton.
+print('Passengers grouped by port of embarkment (C = Cherbourg, Q = Queenstown, S = Southampton):')
 print(train_df['Embarked'].value_counts())
 
 # Lets create a histogram to visually represent the number of passengers which embarked from each port.
@@ -92,11 +90,11 @@ sns.countplot(x='Embarked', data=train_df, palette='Set2')
 plt.show()
 print('The most common boarding port of embarkment is %s.' %train_df['Embarked'].value_counts().idxmax())
 
-#This is showing the distribution of where the passengers embarked from. Most passengers embarked from SouthHampton so we will input the 2 missing values with SouthHampton.
+#This is showing the distribution of where the passengers embarked from. Most passengers embarked from Southampton so we will input the 2 missing values with Southampton.
 
-"""Assesment of missing values in training data"""
+"""Assessment of missing values in training data"""
 # If "Age" is missing for a given row, I'll input the median age which is "28".
-# If "Embarked" is missing for a riven row, I'll inpute "S" which is the most common boarding port.
+# If "Embarked" is missing for a riven row, I'll input "S" which is the most common boarding port.
 # I'll ignore "Cabin" as a variable as a large percent was missing. 
 # As a note the "Cabin" variable appears to be associated with the passenger's class and fare paid.
 
@@ -113,7 +111,7 @@ train_data.isnull().sum()
 # preview adjusted train data
 train_data.head()
 
-#Now I will graph the Age variable again as a histogram, however, this time I will be camparing the values before the train data set was adjusted to the train data set after it was adjusted.
+#Now I will graph the Age variable again as a histogram, however, this time I will be comparing the values before the train data set was adjusted to the train data set after it was adjusted.
 plt.figure(figsize=(15,8))
 ax = train_df["Age"].hist(bins=15, density=True, stacked=True, color='teal', alpha=0.6)
 train_df["Age"].plot(kind='density', color='teal')
@@ -172,11 +170,9 @@ testing.drop('Ticket', axis=1, inplace=True)
 final_test = testing
 final_test.head()
 
-"""
-DATA ANALYSIS
-"""
+"""DATA ANALYSIS"""
 """Looking into AGE"""
-"""Creating a Histogram"""
+"""Creating a Histogram of that compares the survivors and non survivors ages"""
 plt.figure(figsize=(15,8))
 ax = sns.kdeplot(final_train["Age"][final_train.Survived == 1], color="darkturquoise", shade=True)
 sns.kdeplot(final_train["Age"][final_train.Survived == 0], color="lightcoral", shade=True)
@@ -186,8 +182,8 @@ ax.set(xlabel='Age')
 plt.xlim(-10,85)
 plt.show()
 
-# The Age distribution of survivors is very similar to to that of who died, the biggest difference is that a great number of chldren survived, this shows that passengers prioritized svaing children.
-# However, it should also be noted that the "Age" 28 was used to fill in many of the missing age values,Therefore that will have an impact on the number of deaths/survivors.  
+# The Age distribution of survivors is very similar to that of who died, the biggest difference is that a great number of children survived, this shows that passengers prioritized saving children.
+# However, it should also be noted that the "Age" 28 was used to fill in many of the missing age values, therefore that will have an impact on the number of deaths/survivors.  
 # Also, the 28 age range had the largest number of members in it so it makes sense that the largest number of survivors and deaths come from this age range.
 
 """Creating a barchart of age of survivors"""
@@ -198,7 +194,7 @@ avg_survival_byage = final_train[["Age", "Survived"]].groupby(['Age'], as_index=
 g = sns.barplot(x='Age', y='Survived', data=avg_survival_byage, color="LightSeaGreen")
 plt.show()
 
-#The number of younger survivors is an intereting data point to consider, so I am going to create another variable called minors which will include passengers under 16.
+#The number of younger survivors is an interesting data point to consider, so I am going to create another variable called minors which will include passengers under 16.
 
 final_train['IsMinor']=np.where(final_train['Age']<=16, 1, 0)
 
@@ -226,17 +222,17 @@ plt.show()
 # As shown a greater number of first class passengers survived.  The higher class of the passenger the more likely they were to survive.
 
 """Passenger Embark Port"""
-
+# We will now create a bar chart for the class of the passengers.
 sns.barplot('Embarked', 'Survived', data=train_df, color="teal")
 plt.show()
 
 # Passengers who boarded in Cherbourg, France, appear to have the highest survival rate. 
-# Passengers who boarded in Southhampton were marginally less likely to survive than those who boarded in Queenstown. 
+# Passengers who boarded in Southampton were marginally less likely to survive than those who boarded in Queenstown. 
 # This is probably related to passenger class, or maybe even the order of room assignments (e.g. maybe earlier passengers were more likely to have rooms closer to deck). 
 # It's also worth noting the size of the whiskers in these plots. 
-# Because the number of passengers who boarded at Southhampton was highest, the confidence around the survival rate is the highest. 
-# The whisker of the Queenstown plot includes the Southhampton average, as well as the lower bound of its whisker. 
-# It's possible that Queenstown passengers were equally, or even more, ill-fated than their Southhampton counterparts.
+# Because the number of passengers who boarded at Southampton was highest, the confidence around the survival rate is the highest. 
+# The whisker of the Queenstown plot includes the Southampton average, as well as the lower bound of its whisker. 
+# It's possible that Queenstown passengers were equally, or even more, ill-fated than their Southampton counterparts.
 
 """Traveling alone or with family"""
 
@@ -298,9 +294,7 @@ sns.heatmap(X.corr(), annot=True, cmap="RdYlGn")
 plt.show()
 
 
-"""Evaluating the model
-Model evaluation based on simple train/test split using train_test_split() function
-"""
+"""Evaluating the model.  Model evaluation based on simple train/test split using train_test_split() function"""
 
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score, classification_report, precision_score, recall_score 
@@ -358,7 +352,7 @@ logreg = LogisticRegression()
 # Use cross_val_score function
 # We are passing the entirety of X and y, not X_train or y_train, it takes care of splitting the data
 # cv=10 for 10 folds
-# scoring = {'accuracy', 'neg_log_loss', 'roc_auc'} for evaluation metric - althought they are many
+# scoring = {'accuracy', 'neg_log_loss', 'roc_auc'} for evaluation metric - although they are many
 
 scores_accuracy = cross_val_score(logreg, X, y, cv=10, scoring='accuracy')
 scores_log_loss = cross_val_score(logreg, X, y, cv=10, scoring='neg_log_loss')
@@ -368,8 +362,7 @@ print(logreg.__class__.__name__+" average accuracy is %2.3f" % scores_accuracy.m
 print(logreg.__class__.__name__+" average log_loss is %2.3f" % -scores_log_loss.mean())
 print(logreg.__class__.__name__+" average auc is %2.3f" % scores_auc.mean())
 
-
-"""Model evaluation based on K-fold cross-validation using cross_validate() function"""
+"""Model evaluation based on K-fold cross-validation using cross_validate() function with same parameters as previous K-fold validation function"""
 
 from sklearn.model_selection import cross_validate
 
@@ -408,7 +401,7 @@ for sc in range(len(scoring)):
                                else results['test_%s' % list(scoring.values())[sc]].mean(), 
                                results['test_%s' % list(scoring.values())[sc]].std()))
 
-# We notice that the model is slightly deteriorated. 
+# Observe that the model is slightly deteriorated. 
 # The "Fare" variable does not carry any useful information. 
 # Its presence is just noise for the logistic regression model.
 
@@ -554,18 +547,16 @@ plt.grid('off')
 plt.show()
 
 
-"""
-The last step: Using the trained model to predict who in the test data set will survive the sinking of the Titanic 
-"""
+"""The last step: Using the trained model to predict who in the test data set will survive the sinking of the Titanic """
 
 final_test['Survived'] = log_clf.predict(final_test[Selected_features])
 final_test['PassengerId'] = test_df['PassengerId']
 
-submission = final_test[['PassengerId','Survived']]
+result = final_test[['PassengerId','Survived']]
 
-submission.to_csv("submission.csv", index=False)
+result.to_csv("result.csv", index=False)
 
-submission.tail()
+result.tail()
 
 
 
